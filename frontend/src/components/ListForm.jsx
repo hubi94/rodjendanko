@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import client from "../../lib/client";
 import Button from "./Button";
 import InputField from "./InputField";
 
@@ -11,6 +12,20 @@ const ListForm = () => {
   const handleList = async (ev) => {
     ev.preventDefault();
     const errors = [];
+
+    const listId = await client.createList({ title: data.listName });
+    const promises = items.map((item) =>
+      client.createItem(listId, {
+        name: item.itemName,
+        gift: {
+          link: item.itemURL,
+          img: item.itemImgURL,
+        },
+        checked: false,
+      })
+    );
+
+    await Promise.all(promises);
   };
 
   const handleListFormChange = (name, value) => {

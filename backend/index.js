@@ -50,12 +50,12 @@ app.post("/my/lists", async (req, res) => {
   if (!req.user) {
     unauthorized(res);
   }
-  await withErrorHandling(
+  let result = await withErrorHandling(
     res,
-    "INSERT INTO lists (id, title, archived, id_user) VALUES (default, $1, $2, $3)",
+    "INSERT INTO lists (id, title, archived, id_user) VALUES (default, $1, $2, $3) returning id",
     [req.body.title, req.body.archived, req.user.id]
   );
-  res.status(201).send();
+  res.status(200).json({ id: result.rows[0].id });
 });
 app.put("/my/lists", async (req, res) => {
   if (!req.user) {
@@ -104,11 +104,11 @@ app.post("/lists/:id/items", async (req, res) => {
     res,
     "INSERT INTO items (id, name, gift_url, img_url, checked, id_list, id_user) VALUES (default, $1, $2, $3, $4, $5, $6)",
     [
-      req.params.name,
-      req.params.gift.link,
-      req.params.gift.img,
-      req.params.checked,
-      req.params.id_list,
+      req.body.name,
+      req.body.gift.link,
+      req.body.gift.img,
+      req.body.checked,
+      req.params.id,
       req.user.id,
     ]
   );

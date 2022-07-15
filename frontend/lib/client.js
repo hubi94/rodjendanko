@@ -55,7 +55,11 @@ class ApiClient {
 
   async createList({ title }) {
     console.log("CREATING MY LISTS: ");
-    return await this.axios.post("/my/lists", { title, archived: false });
+    const response = await this.axios.post("/my/lists", {
+      title,
+      archived: false,
+    });
+    return response.data.id;
   }
 
   async updateList({ id, title, archived }) {
@@ -74,6 +78,9 @@ class ApiClient {
   }
 
   /* ------------------------- Itemi CRUD ------------------------------ */
+  async createItem(listId, data) {
+    return await this.axios.post(`/lists/${listId}/items`, data);
+  }
   // async fetchItems() {
   //   console.log("GETTING MY ITEMS: ");
   //   const response = await this.axios.get("");
