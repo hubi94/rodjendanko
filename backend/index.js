@@ -122,13 +122,24 @@ app.put("/lists/:id/items", async (req, res) => {
     res,
     "UPDATE items SET name=$1, gift_url=$2, img_url=$3, checked=$4 WHERE id=$5",
     [
-      req.params.name,
-      req.params.gift.link,
-      req.params.gift.img,
-      req.params.checked,
+      req.body.name,
+      req.body.gift.link,
+      req.body.gift.img,
+      req.body.checked,
       req.params.id,
     ]
   );
+});
+
+app.delete("/lists/:id/items", async (req, res) => {
+  if (!req.user) {
+    unauthorized(res);
+  }
+
+  await withErrorHandling(res, "DELETE FROM lists WHERE id=$1", [
+    req.params.id,
+  ]);
+  res.status(204).send();
 });
 
 // ------------------------------------------------------ //

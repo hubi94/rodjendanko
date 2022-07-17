@@ -64,7 +64,8 @@ const Login = () => {
           {/* <!-- Email input --> */}
           <InputField
             type="text"
-            placeholder="Email address"
+            label="Email address"
+            placeholder="example@mail.com"
             value={data.email}
             onChange={(value) => handleChange("email", value)}
           />
@@ -72,7 +73,8 @@ const Login = () => {
           {/* <!-- Password input --> */}
           <InputField
             type="password"
-            placeholder="Password"
+            label="Password"
+            placeholder="Password 123"
             value={data.password}
             onChange={(value) => handleChange("password", value)}
           />

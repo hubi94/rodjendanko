@@ -89,7 +89,8 @@ const Register = () => {
           {/* <!-- Full name input --> */}
           <InputField
             type="text"
-            placeholder="Full name"
+            label="Full name"
+            placeholder="Your Name"
             value={data.fullName}
             onChange={(value) => handleChange("fullName", value)}
           />
@@ -97,7 +98,8 @@ const Register = () => {
           {/* <!-- Username input --> */}
           <InputField
             type="text"
-            placeholder="Username"
+            label="Username"
+            placeholder="Username123"
             value={data.username}
             onChange={(value) => handleChange("username", value)}
           />
@@ -105,7 +107,8 @@ const Register = () => {
           {/* <!-- Email input --> */}
           <InputField
             type="text"
-            placeholder="Email address"
+            label="Email address"
+            placeholder="example@mail.com"
             value={data.email}
             onChange={(value) => handleChange("email", value)}
           />
@@ -113,14 +116,16 @@ const Register = () => {
           {/* <!-- Password input --> */}
           <InputField
             type="password"
-            placeholder="Password"
+            label="Password"
+            placeholder="Password123"
             value={data.password}
             onChange={(value) => handleChange("password", value)}
           />
 
           <InputField
             type="password"
-            placeholder="Repeat password"
+            label="Repeat password"
+            placeholder="Password123"
             value={data.passwordConfirmed}
             onChange={(value) => handleChange("passwordConfirmed", value)}
           />

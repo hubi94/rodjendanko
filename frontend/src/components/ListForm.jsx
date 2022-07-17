@@ -1,17 +1,36 @@
 import React, { useState } from "react";
+import Modal from "react-modal/lib/components/Modal";
 import client from "../../lib/client";
 import Button from "./Button";
+import ErrorHelper from "./ErrorHelper";
 import InputField from "./InputField";
 
-const ListForm = () => {
+const ListForm = (props) => {
   const [data, setData] = useState({ listName: "" });
   const [items, setItems] = useState([
     { itemName: "", itemURL: "", itemImgURL: "" },
   ]);
+  const [errors, setErrors] = useState([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const handleList = async (ev) => {
     ev.preventDefault();
     const errors = [];
+
+    if (data.listName.trim().length === 0) {
+      errors.push("You must have name for your list");
+    }
+
+    items.forEach((item, idx) => {
+      if (item.itemName.trim().length === 0) {
+        errors.push(`Item name is required for item: ${idx + 1}`);
+      }
+    });
+
+    if (errors.length > 0) {
+      setErrors(errors);
+      return;
+    }
 
     const listId = await client.createList({ title: data.listName });
     const promises = items.map((item) =>
@@ -26,6 +45,8 @@ const ListForm = () => {
     );
 
     await Promise.all(promises);
+
+    openModal();
   };
 
   const handleListFormChange = (name, value) => {
@@ -49,54 +70,92 @@ const ListForm = () => {
       })
     );
   };
+  // --------------------- Modal ---------------------- //
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+  const closeModal = () => {
+    setModalIsOpen(false);
+    props.onFinish();
+  };
+
+  const style = {
+    content: {
+      position: "absolute",
+      top: "20rem",
+      left: "25rem",
+      right: "25rem",
+      bottom: "20rem",
+      border: "1px solid #ccc",
+      background: "#fff",
+      overflow: "auto",
+      WebkitOverflowScrolling: "touch",
+      borderRadius: "4px",
+      outline: "none",
+      padding: "0",
+    },
+  };
+
+  // -------------------- Item handle ------------------- //
+
+  const handleDeleteItem = (idx) => {
+    setItems((items) => items.filter((_, itemIdx) => idx !== itemIdx));
+  };
 
   const addNewItem = () => {
     setItems([...items, { itemName: "", itemURL: "", itemImgURL: "" }]);
   };
 
   return (
-    <form onSubmit={handleList}>
+    <form className="my-8" onSubmit={handleList}>
+      <ErrorHelper errors={errors} />
       {/* <!-- List name --> */}
-      <label>List Name</label>
       <InputField
+        className="w-2/4 form-control block px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-violet-600 focus:outline-none"
         type="text"
+        label="List Name"
         value={data.listName}
         onChange={(value) => handleListFormChange("listName", value)}
       />
-
-      <div className="block">
+      <div className="block rtl-grid">
         <Button
           onClick={addNewItem}
-          className="btn ml-80"
+          className="btn"
           type="button"
           buttonText="+ Add new item"
         />
       </div>
-
       {items.map((item, idx) => (
-        <div key={idx} className="grid grid-cols-3 gap-4">
+        <div key={idx} className="border rounded bg-gray-100 mb-4">
           <div>
-            <label>Item Name</label>
+            <Button
+              className="btn m-2 float-right"
+              type="button"
+              buttonText="Delete"
+              onClick={() => handleDeleteItem(idx)}
+            />
             <InputField
+              className="w-2/4 form-control block px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-violet-600 focus:outline-none"
               type="text"
+              label="Item Name"
               value={item.itemName}
               onChange={(value) => handleItemFormChange(idx, "itemName", value)}
             />
           </div>
 
           <div>
-            <label>Item URL</label>
             <InputField
               type="text"
+              label="Item URL"
               value={item.itemURL}
               onChange={(value) => handleItemFormChange(idx, "itemURL", value)}
             />
           </div>
 
           <div>
-            <label>Item Image URL</label>
             <InputField
               type="text"
+              label="Item Image URL"
               value={item.itemImgURL}
               onChange={(value) =>
                 handleItemFormChange(idx, "itemImgURL", value)
@@ -105,17 +164,23 @@ const ListForm = () => {
           </div>
         </div>
       ))}
-
       <br />
-
       {/* <!-- Submit button --> */}
       <Button
         type="submit"
-        className="inline-block px-7 py-3 bg-violet-500 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-violet-600 hover:shadow-lg focus:bg-violet-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-violet-800 active:shadow-lg transition duration-150 ease-in-out w-full"
+        className="inline-block w-1/4 px-7 py-3 float-right bg-violet-500 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-violet-600 hover:shadow-lg focus:bg-violet-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-violet-800 active:shadow-lg transition duration-150 ease-in-out"
         data-mdb-ripple="true"
         data-mdb-ripple-color="light"
         buttonText="Create list"
       />
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        ariaHideApp={false}
+        style={style}
+      >
+        <h3 className="text-center my-6">List created successfully!</h3>
+      </Modal>
     </form>
   );
 };

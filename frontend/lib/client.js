@@ -48,13 +48,11 @@ class ApiClient {
   /* ---------------------- Liste CRUD ------------------------- */
 
   async fetchLists() {
-    console.log("GETTING MY LISTS: ");
     const response = await this.axios.get("/my/lists");
     return response.data.lists;
   }
 
   async createList({ title }) {
-    console.log("CREATING MY LISTS: ");
     const response = await this.axios.post("/my/lists", {
       title,
       archived: false,
@@ -68,7 +66,6 @@ class ApiClient {
   }
 
   async deleteList({ id }) {
-    console.log("DELETE MY LISTS: ");
     return await this.axios.delete(`/my/lists/${id}`);
   }
 
@@ -78,13 +75,20 @@ class ApiClient {
   }
 
   /* ------------------------- Itemi CRUD ------------------------------ */
+
   async createItem(listId, data) {
-    return await this.axios.post(`/lists/${listId}/items`, data);
+    const response = await this.axios.post(`/lists/${listId}/items`, data);
+    return response.data.id;
   }
-  // async fetchItems() {
-  //   console.log("GETTING MY ITEMS: ");
-  //   const response = await this.axios.get("");
-  // }
+
+  async deleteItem({ id }) {
+    return await this.axios.delete(`/lists/${id}/items`);
+  }
+  async fetchItems(listId) {
+    console.log("GETTING MY ITEMS: ");
+    const response = await this.axios.get(`/lists/${listId}/items`);
+    return response.data.items;
+  }
 }
 
 const client = new ApiClient();

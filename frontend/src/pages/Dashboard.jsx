@@ -4,7 +4,6 @@ import client from "../../lib/client";
 import List from "../components/List";
 import Button from "../components/Button";
 import Modal from "react-modal/lib/components/Modal";
-import InputField from "../components/InputField";
 import ListForm from "../components/ListForm";
 
 const statement = "There is no lists yet.";
@@ -12,6 +11,40 @@ const statement = "There is no lists yet.";
 const Dashboard = () => {
   const [lists, setLists] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  // ---------------------- Modal ------------------------------//
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
+  const handleFinish = async () => {
+    closeModal();
+    const lists = await client.fetchLists();
+    setLists(lists);
+  };
+
+  const style = {
+    content: {
+      position: "absolute",
+      top: "2rem",
+      left: "15rem",
+      right: "15rem",
+      bottom: "2rem",
+      border: "1px solid #ccc",
+      background: "#fff",
+      overflow: "auto",
+      WebkitOverflowScrolling: "touch",
+      borderRadius: "4px",
+      outline: "none",
+      padding: "3rem 5rem",
+    },
+  };
+  // --------------------------------------------------------------------- //
 
   useEffect(() => {
     async function fetchLists() {
@@ -31,20 +64,6 @@ const Dashboard = () => {
     setLists(newArray);
   };
 
-  //Modal
-
-  const openModal = () => {
-    setModalIsOpen(true);
-  };
-
-  const afterOpenModal = () => {
-    console.log("Otvorio se modal");
-  };
-
-  const closeModal = () => {
-    setModalIsOpen(false);
-  };
-
   return (
     <Layout>
       <div>
@@ -56,21 +75,33 @@ const Dashboard = () => {
         />
         <Modal
           isOpen={modalIsOpen}
-          onAfterOpen={afterOpenModal}
           onRequestClose={closeModal}
           ariaHideApp={false}
-          contentLabel="Example Modal"
+          style={style}
         >
-          <h2 className="w-full px-4 py-2 text-xl font-medium text-center text-violet-500">
-            Create your list
-          </h2>
+          <div className="w-full inline-block px-4 pb-2 text-xl font-medium text-center">
+            <Button
+              className="btn h-2 w-2 float-right inline-block"
+              type="button"
+              buttonText="X"
+              onClick={closeModal}
+            />
+            <h2 className=" text-violet-500">Create your list</h2>
+          </div>
           <div>
-            <ListForm />
+            <ListForm onFinish={handleFinish} />
           </div>
         </Modal>
         <div className="my-3">
           {lists.map((list) => (
-            <List list={list} key={list.id} onDelete={handleDelete} />
+            <List
+              list={list}
+              key={list.id}
+              onDelete={handleDelete}
+              // onEdit={handleEdit}
+              // onArchive={handleArchive}
+              // onShare={handleShare}
+            />
           ))}
         </div>
       </div>

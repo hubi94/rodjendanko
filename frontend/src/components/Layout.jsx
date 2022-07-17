@@ -4,7 +4,13 @@ import { Link, NavLink } from "react-router-dom";
 const Layout = ({ children }) => {
   return (
     <>
-      <nav></nav>
+      <nav>
+        <div>logo</div>
+        <div>
+          <p>username</p>
+          <div>logout</div>
+        </div>
+      </nav>
 
       <div className="mb-4 border-b border-gray-200 dark:border-gray-700">
         <ul
