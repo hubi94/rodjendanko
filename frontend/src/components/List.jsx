@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import client from "../../lib/client";
 import Button from "./Button";
+import ModalEdit from "./ModalEdit";
 
 const List = (props) => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
   const handleShare = () => {};
 
-  const handleEdit = () => {};
+  const handleEdit = () => {
+    setModalIsOpen(true);
+  };
 
   const handleArchive = () => {};
 
@@ -18,6 +23,11 @@ const List = (props) => {
 
   return (
     <div>
+      <ModalEdit
+        open={modalIsOpen}
+        onClose={() => setModalIsOpen(false)}
+        list={props.list}
+      />
       {props.list.title}
       <div>
         <Button

@@ -93,7 +93,7 @@ app.get("/lists/:id/items", async (req, res) => {
     "SELECT * FROM items WHERE id_list = $1",
     [id]
   );
-  res.send({ lists: result.rows });
+  res.send({ items: result.rows });
 });
 //  ------> videti sa Stefanom
 app.post("/lists/:id/items", async (req, res) => {

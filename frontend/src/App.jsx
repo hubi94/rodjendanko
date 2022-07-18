@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
+import MyList from "./pages/MyList";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path="/" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/my-list" element={<MyList />} />
         <Route path="/friends" element={<Friends />} />
         <Route
           path="/archive"

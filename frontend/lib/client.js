@@ -85,7 +85,6 @@ class ApiClient {
     return await this.axios.delete(`/lists/${id}/items`);
   }
   async fetchItems(listId) {
-    console.log("GETTING MY ITEMS: ");
     const response = await this.axios.get(`/lists/${listId}/items`);
     return response.data.items;
   }
