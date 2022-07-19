@@ -153,15 +153,12 @@ app.post("/lists/:id/items", async (req, res) => {
   res.json({ listId, link });
 });
 
-app.get("/users", async (req, res) => {
-  try {
-    const result = await pool.query("SELECT * FROM users");
-    res.status(200).json({ users: result.rows });
-  } catch (err) {
-    console.error(err);
-    res.status(500);
-    res.json({ message: "Something went wrong." });
+app.get("/user/me", async (req, res) => {
+  if (!req.user) {
+    unauthorized(res);
   }
+
+  return res.json({ ...req.user });
 });
 
 app.listen(port, () => {

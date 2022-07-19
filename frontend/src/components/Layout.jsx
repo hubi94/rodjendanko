@@ -1,67 +1,73 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import client from "../../lib/client";
+import Button from "./Button";
+
+const tabs = [
+  { to: "/", title: "My Lists" },
+  { to: "/friends", title: "Friends" },
+  { to: "/archive", title: "Archive" },
+];
 
 const Layout = ({ children }) => {
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const username = async () => {
+      const user = await client.fetchUser();
+      console.log("USER: ", user);
+      setUser(user);
+    };
+
+    username();
+  }, []);
+
+  if (!user) return null;
+
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    client.logout();
+    navigate("/login", { replace: true });
+  };
+
   return (
-    <>
-      <nav>
-        <div>logo</div>
-        <div>
-          <p>username</p>
-          <div>logout</div>
+    <div className="flex flex-col min-h-screen">
+      <nav className="px-72 text-center text-purple-100 text-2xl">
+        <h1 className="pt-4 w-72 font-bold text-5xl float-left">Wishlist</h1>
+        <div className="float-right w-2/6 flex items-center">
+          <div className="flex-1">
+            Hello, <b>{user.username}</b>
+          </div>
+          <div className="flex-1 my-3">
+            <Button
+              className="p-3 hover:bg-violet-200 hover:text-slate-700 rounded-lg"
+              buttonText="Log Out"
+              onClick={handleLogOut}
+            />
+          </div>
         </div>
       </nav>
 
-      <div className="mb-4 border-b border-gray-200 dark:border-gray-700">
-        <ul
-          className="flex flex-wrap -mb-px text-sm font-medium text-center"
-          id="myTab"
-          data-tabs-toggle="#myTabContent"
-          role="tablist"
-        >
-          <li className="mr-2" role="presentation">
-            <button
-              className="inline-block p-4 rounded-t-lg border-b-2"
-              id="profile-tab"
-              data-tabs-target="#profile"
-              type="button"
-              role="tab"
-              aria-controls="profile"
-              aria-selected="false"
-            >
-              <Link to="/">My Lists</Link>
-            </button>
-          </li>
-          <li className="mr-2" role="presentation">
-            <button
-              className="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
-              id="dashboard-tab"
-              data-tabs-target="#dashboard"
-              type="button"
-              role="tab"
-              aria-controls="dashboard"
-              aria-selected="false"
-            >
-              <Link to="/friends">Friends</Link>
-            </button>
-          </li>
-          <li className="mr-2" role="presentation">
-            <button
-              className="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
-              id="settings-tab"
-              data-tabs-target="#settings"
-              type="button"
-              role="tab"
-              aria-controls="settings"
-              aria-selected="false"
-            >
-              <Link to="/archive">Archive</Link>
-            </button>
-          </li>
-        </ul>
+      <div className="h-12 my-5 text-lg border-b border-violet-500 text-center">
+        {tabs.map((tab, idx) => (
+          <Link
+            key={idx}
+            className="rounded-lg mx-4 px-3 py-4 text-slate-700 font-semibold hover:bg-violet-200 hover:text-slate-900"
+            to={tab.to}
+          >
+            {tab.title}
+          </Link>
+        ))}
       </div>
-      {children}
-    </>
+      <div className="flex-1">{children}</div>
+
+      <footer class="flex-col py-5 bg-white border-t border-violet-500">
+        <div class="flex-1 text-base text-slate-800 text-center">
+          © 2022 Stardust™
+        </div>
+      </footer>
+    </div>
   );
 };
 

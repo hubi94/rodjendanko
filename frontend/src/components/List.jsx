@@ -22,36 +22,42 @@ const List = (props) => {
   };
 
   return (
-    <div>
-      <ModalEdit
-        open={modalIsOpen}
-        onClose={() => setModalIsOpen(false)}
-        list={props.list}
-      />
-      {props.list.title}
-      <div>
+    <div className="table-row">
+      <div className="table-cell border pl-6 py-3 text-lg ">
+        <ModalEdit
+          open={modalIsOpen}
+          onClose={() => setModalIsOpen(false)}
+          list={props.list}
+        />
+        {props.list.title}
+      </div>
+      <div className="table-cell border text-center text-slate-700">
         <Button
-          className="btn m-2"
-          type="button"
-          buttonText="Share"
+          className="btn px-2 pt-4 material-symbols-outlined"
+          type={props.type}
+          title="copy link"
+          buttonText="content_copy"
           onClick={handleShare}
         />
         <Button
-          className="btn m-2"
-          type="button"
-          buttonText="Edit"
+          className="btn px-2 pt-4 material-symbols-outlined"
+          type={props.type}
+          title="edit"
+          buttonText="edit"
           onClick={handleEdit}
         />
         <Button
-          className="btn m-2"
-          type="button"
-          buttonText="Archive"
+          className="btn px-2 pt-4 material-symbols-outlined "
+          type={props.type}
+          title="archive"
+          buttonText="archive"
           onClick={handleArchive}
         />
         <Button
-          className="btn m-2"
-          type="button"
-          buttonText="Delete"
+          className="btn px-2 pt-4 material-symbols-outlined"
+          type={props.type}
+          title="delete"
+          buttonText="delete"
           onClick={handleDelete}
         />
       </div>

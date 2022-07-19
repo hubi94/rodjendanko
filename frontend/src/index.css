@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  font-family: Raleway;
+}
+
+nav {
+  background-image: url("patternpad.png");
+  height: 5rem;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 0 0 1000000px inset;
+}
+
 .rtl-grid {
   direction: rtl;
+}
+
+.list-pic {
+  background-image: url("patternpad-lists.png");
 }

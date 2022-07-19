@@ -45,6 +45,11 @@ class ApiClient {
     return await this.axios.post("/api/user/login", { username, password });
   }
 
+  async fetchUser() {
+    const response = await this.axios.get("/user/me");
+    return response.data;
+  }
+
   /* ---------------------- Liste CRUD ------------------------- */
 
   async fetchLists() {
@@ -84,6 +89,7 @@ class ApiClient {
   async deleteItem({ id }) {
     return await this.axios.delete(`/lists/${id}/items`);
   }
+
   async fetchItems(listId) {
     const response = await this.axios.get(`/lists/${listId}/items`);
     return response.data.items;
