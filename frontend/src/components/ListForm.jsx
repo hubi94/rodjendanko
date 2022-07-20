@@ -55,7 +55,7 @@ const ListForm = (props) => {
 
   //object.assign() stvara novi objekat sa novom referencom
   const handleItemFormChange = (idx, name, value) => {
-    // const arr = [...items.map((item) => Object.assign({}, item))]; Object.assign({}, obj) === {...obj}
+    // const arr = [...items.map((item) => Object.assign({}, item))];    Object.assign({}, obj) === {...obj}
     // console.log(arr);
     // arr[idx][name] = value;
     // setItems(arr);
@@ -107,36 +107,39 @@ const ListForm = (props) => {
   };
 
   return (
-    <form className="my-8" onSubmit={handleList}>
+    <form className="my-6" onSubmit={handleList}>
       <ErrorHelper errors={errors} />
       {/* <!-- List name --> */}
       <InputField
-        className="w-2/4 form-control block px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-violet-600 focus:outline-none"
+        className="w-full form-control block -mb-3 px-2 py-1 text-xl font-normal text-gray-700 bg-whites bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-900 focus:bg-white focus:border-violet-600 focus:outline-none"
         type="text"
-        label="List Name"
+        label="List name"
+        labelClassName="text-slate-700 font-semibold pl-4"
         value={data.listName}
         onChange={(value) => handleListFormChange("listName", value)}
       />
-      <div className="block rtl-grid">
+      <div className="block rtl-grid mb-4 border-b border-[#df7e7e8d]">
         <Button
           onClick={addNewItem}
-          className="btn"
+          className="btn mr-14 p-3 my-1 rounded-lg font-semibold text-slate-700 hover:bg-violet-200 hover:text-slate-900 hover:border-none"
           type="button"
-          buttonText="+ Add new item"
+          buttonText="Add new item +"
         />
       </div>
       {items.map((item, idx) => (
-        <div key={idx} className="border rounded bg-gray-100 mb-4">
+        <div key={idx} className="border-b-2 border-[#df7e7e8d]  mb-4">
           <div>
             <Button
-              className="btn m-2 float-right"
+              className="btn m-8 pr-5 float-right material-symbols-outlined"
               type="button"
-              buttonText="Delete"
+              title="delete this item"
+              buttonText="delete"
               onClick={() => handleDeleteItem(idx)}
             />
             <InputField
-              className="w-2/4 form-control block px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-violet-600 focus:outline-none"
+              className="w-3/4 form-control block px-2 py-1 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-violet-600 focus:outline-none"
               type="text"
+              labelClassName="text-slate-700 font-semibold pl-4"
               label="Item Name"
               value={item.itemName}
               onChange={(value) => handleItemFormChange(idx, "itemName", value)}
@@ -147,6 +150,7 @@ const ListForm = (props) => {
             <InputField
               type="text"
               label="Item URL"
+              labelClassName="text-slate-700 font-semibold pl-4"
               value={item.itemURL}
               onChange={(value) => handleItemFormChange(idx, "itemURL", value)}
             />
@@ -156,6 +160,7 @@ const ListForm = (props) => {
             <InputField
               type="text"
               label="Item Image URL"
+              labelClassName="text-slate-700 font-semibold pl-4"
               value={item.itemImgURL}
               onChange={(value) =>
                 handleItemFormChange(idx, "itemImgURL", value)

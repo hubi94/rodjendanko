@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 const InputField = (props) => {
   return (
-    <div className="mb-4">
-      <label>{props.label}</label>
+    <div className="mt-2 mb-3 mx-2">
+      <label className={props.labelClassName}>{props.label}</label>
       <input
         type={props.type}
         className={props.className}
@@ -17,6 +17,6 @@ const InputField = (props) => {
 
 InputField.defaultProps = {
   className:
-    "form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-violet-600 focus:outline-none",
+    "form-control block w-full px-3 py-1 text-lg font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-violet-600 focus:outline-none",
 };
 export default InputField;

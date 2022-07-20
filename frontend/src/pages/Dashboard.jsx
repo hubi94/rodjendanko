@@ -32,16 +32,16 @@ const Dashboard = () => {
     content: {
       position: "absolute",
       top: "2rem",
-      left: "15rem",
-      right: "15rem",
+      left: "22rem",
+      right: "22rem",
       bottom: "2rem",
-      border: "1px solid #ccc",
+      border: "3px solid #2f35aa",
       background: "#fff",
       overflow: "auto",
       WebkitOverflowScrolling: "touch",
-      borderRadius: "4px",
+      borderRadius: "0.75rem",
       outline: "none",
-      padding: "3rem 5rem",
+      padding: "3rem 4rem",
     },
   };
   // --------------------------------------------------------------------- //
@@ -70,7 +70,7 @@ const Dashboard = () => {
         <div className=" flex flex-col  justify-between bg-white rounded-lg">
           <div className="w-full h-10 ">
             <Button
-              className="float-right mr-14 p-3 my-1 rounded-lg text-slate-700 font-semibold hover:bg-violet-200 hover:text-slate-900 hover:border-none"
+              className="float-right mr-14 p-3 my-1 rounded-lg font-semibold hover:bg-violet-200 hover:text-slate-900 hover:border-none"
               type="button"
               buttonText="+ Create new list"
               onClick={openModal}
@@ -82,14 +82,16 @@ const Dashboard = () => {
             ariaHideApp={false}
             style={style}
           >
-            <div className="w-full inline-block px-4 pb-2 text-xl font-medium text-center">
+            <div className="w-full inline-block px-4 text-slate-700 text-xl font-medium text-center">
               <Button
-                className="btn h-2 w-2 float-right inline-block"
+                className="btn h-2 w-2 float-right inline-block  hover:font-semibold material-symbols-outlined"
                 type="button"
-                buttonText="X"
+                buttonText="close"
                 onClick={closeModal}
               />
-              <h2 className=" text-violet-500">Create your list</h2>
+              <h2 className="pb-3 font-semibold border-b border-[#df7e7e8d]">
+                Create your list
+              </h2>
             </div>
             <div>
               <ListForm onFinish={handleFinish} />
