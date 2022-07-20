@@ -13,14 +13,17 @@ const Layout = ({ children }) => {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    const username = async () => {
+    const fn = async () => {
       const user = await client.fetchUser();
       console.log("USER: ", user);
       setUser(user);
+      localStorage.setItem("username", user.username);
     };
 
-    username();
+    fn();
   }, []);
+
+  const username = localStorage.getItem("username");
 
   if (!user) return null;
 
@@ -37,7 +40,7 @@ const Layout = ({ children }) => {
         <h1 className="pt-4 w-72 font-bold text-5xl float-left">Wishlist</h1>
         <div className="float-right w-2/6 flex items-center">
           <div className="flex-1">
-            Hello, <b>{user.username}</b>
+            Hello, <b>{username}</b>
           </div>
           <div className="flex-1 my-3">
             <Button
@@ -62,8 +65,8 @@ const Layout = ({ children }) => {
       </div>
       <div className="flex-1">{children}</div>
 
-      <footer class="flex-col py-5 bg-white border-t border-violet-500">
-        <div class="flex-1 text-base text-slate-800 text-center">
+      <footer className="flex-col py-5 bg-white border-t border-violet-500">
+        <div className="flex-1 text-base text-slate-800 text-center">
           © 2022 Stardust™
         </div>
       </footer>

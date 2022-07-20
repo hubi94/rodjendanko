@@ -50,6 +50,8 @@ const Dashboard = () => {
     async function fetchLists() {
       const lists = await client.fetchLists();
       setLists(lists);
+      console.log("Liste: ", lists);
+      localStorage.setItem("listId", JSON.stringify(lists));
     }
     fetchLists();
   }, []);

@@ -99,7 +99,7 @@ const Register = () => {
           <InputField
             type="text"
             label="Username"
-            placeholder="Username123"
+            placeholder="username123"
             value={data.username}
             onChange={(value) => handleChange("username", value)}
           />
